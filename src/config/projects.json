@@ -1,0 +1,8 @@
+{
+  "workoutBot": {
+      "directoryAlias": "gotoWorkoutBot"
+  },
+  "auctionHawk": {
+      "directoryAlias": "gotoAnotherServer"
+  }
+}

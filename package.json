@@ -1,0 +1,21 @@
+{
+  "name": "serverMaestro",
+  "version": "1.0.0",
+  "description": "Telegram bot-powered automation system for macOS project management.",
+  "main": "src/bot/index.js",
+  "scripts": {
+    "start": "node src/bot/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-github-username/serverMaestro.git"
+  },
+  "author": "Your Name",
+  "license": "ISC",
+  "dependencies": {
+    "telegraf": "latest",
+    "@nut-tree/nut-js": "latest",
+    "winston": "latest",
+    "dotenv": "latest"
+  }
+}
