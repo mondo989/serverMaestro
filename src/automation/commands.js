@@ -17,8 +17,6 @@ const {
 const aliases = require('../config/aliases.json');
 const logger = require('../config/logger');
 
-// Execute command based on received alias
-
 const executeCommand = async (projectAlias) => {
   let logBuffer = ''; // Initialize in-memory log buffer
 
@@ -28,10 +26,17 @@ const executeCommand = async (projectAlias) => {
     return logBuffer;
   }
 
-  // Here, assuming the directoryAlias itself is the exact terminal command to start the server.
+  let executableAlias = directoryAlias;  // Create a mutable copy to modify
+  if (executableAlias.endsWith('/')) {
+    // Handle directories differently, perhaps by executing a specific script or command within that directory
+    // For demonstration purposes, appending 'npm start' to execute within the directory
+    executableAlias += 'npm start';
+  }
+
+  // Here, assuming the executableAlias itself is the exact terminal command to start the server.
   // If this isn't the case, we need additional mappings or adjustments.
   return new Promise((resolve, reject) => {
-    exec(directoryAlias, (err, stdout, stderr) => {
+    exec(executableAlias, (err, stdout, stderr) => {  // Note the use of executableAlias here
       if (err) {
         logBuffer += `Error starting server for ${projectAlias}: ${err.message}\n`;
         reject(logBuffer);
@@ -43,14 +48,21 @@ const executeCommand = async (projectAlias) => {
   });
 };
 
-const gitPull = (projectPath) => {
+
+
+const gitPull = (projectAlias) => {
+  const directoryAlias = aliases[projectAlias];
+  if (!directoryAlias) {
+    return Promise.reject('Project not found.');
+  }
+
   return new Promise((resolve, reject) => {
-    exec(`cd ${projectPath} && git pull`, (err, stdout, stderr) => {
+    exec(`cd ${directoryAlias} && git pull`, (err, stdout, stderr) => {
       if (err) {
-        reject(err.message);
-        return;
+        reject(`Error pulling latest changes for ${projectAlias}: ${err.message}`);
+      } else {
+        resolve(`Successfully pulled latest changes for ${projectAlias}:\n${stdout}`);
       }
-      resolve(stdout);
     });
   });
 };
@@ -81,9 +93,6 @@ const unlockComputer = async () => {
     return `An error occurred while unlocking the computer: ${error}`;
   }
 };
-
-
-console.log("Inside commands.js. lockComputer:", lockComputer);
 
 module.exports = {
   executeCommand,

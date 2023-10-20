@@ -7,21 +7,12 @@ const {
   unlockComputer
 } = require('../automation');
 
-const {
-  aliases
-} = require('../config/aliasCommands');
-const aliasCommands = require('../config/aliasCommands');
-const {
-  openTerminalAndRun
-} = require('../automation/shortcuts');
+const aliases = require('../config/aliases.json');
+const { openTerminalAndRun } = require('../automation/shortcuts');
 const automationCommands = require('../automation');
-const {
-  exec
-} = require('child_process');
-
+const { exec } = require('child_process');
 const path = require('path');
 const os = require('os');
-
 
 const AUTHORIZED_CHAT_ID = process.env.CHAT_ID;
 
@@ -78,8 +69,10 @@ const register = (bot) => {
       const message = await lockComputer();
       ctx.reply(message);
 
-      const { exec } = require('child_process');
-      
+      const {
+        exec
+      } = require('child_process');
+
       ctx.reply("Please wait, taking screenshot.");
       const screenshotPath = path.join(os.homedir(), 'Desktop', 'sMScreenshots', 'screenshot.png');
       exec(`screencapture -x ${screenshotPath}`, (error, stdout, stderr) => {
@@ -135,61 +128,74 @@ const register = (bot) => {
     }
   });
 
-  const handleListAll = async (ctx) => {
-    // Logic for handling listAll command
-  };
-
-  const handleRunAll = async (ctx) => {
-    // Logic for handling runAll command
-  };
-  // 
-  const handleGitPull = async (ctx, project) => {
-    const logBuffer = await gitPull(project);
-    ctx.reply(logBuffer);
-  };
-
   bot.command('server', async (ctx) => {
-    console.log("Server was sent");
     try {
       console.log("Entered /server command handler.");
       const incomingChatID = `${ctx.message.chat.id}`;
-
-      if (!AUTHORIZED_CHAT_ID.includes(incomingChatID)) {
+      if (AUTHORIZED_CHAT_ID !== incomingChatID) {
         console.log("Unauthorized access attempt.");
         return; // Security check
       }
-
-
       const command = ctx.message.text.split(' ')[1]; // Get the part after /server
-      console.log(`Resolved command: ${command}`);
-
-      if (command === 'listAll') {
-        await handleListAll(ctx);
-      } else if (command === 'runAll') {
-        await handleRunAll(ctx);
-      } else if (command.endsWith('pull')) {
-        const project = command.slice(0, -4);
-        await handleGitPull(ctx, project);
-      } else {
-        // Directly execute the desktop automation without aliasing
-        const projectAlias = command;
-
-        // Check if alias exists in the aliases object
-        if (!aliasCommands.hasOwnProperty(command)) {
-          console.log(`Alias '${command}' not found in aliasCommands.`);
-          ctx.reply(`Alias '${command}' not found. Please use a valid alias.`);
-          return;
-        }
-
-        ctx.reply("starting " + command); // Send a message back to Telegram
-        const terminalCommand = aliasCommands[command];
-        // await openTerminalAndRun(aliases[command]);
-        await openTerminalAndRun(terminalCommand);
-        ctx.reply(command + " was started"); // Send a message back to Telegram
-
+  
+      // Resolve the command to its corresponding alias from aliases.json
+      const resolvedAlias = aliases[command] || command;
+  
+      // Logic to decide whether to run npm start (this could be based on a flag, or some other condition)
+      const shouldRunNpmStart = true; // For demonstration, set to true
+  
+      // Form the terminal command
+      let terminalCommand = `cd ${resolvedAlias}`;
+      if (shouldRunNpmStart) {
+        terminalCommand += ' && npm start';
       }
+  
+      console.log(`Resolved command: ${command}`);
+      ctx.reply("Starting " + command); // Send a message back to Telegram
+  
+      // Invoke nut.js to open terminal and run the command
+      await openTerminalAndRun(terminalCommand);
+  
+      const logBuffer = "Command executed via nut.js";
+      ctx.reply(logBuffer); // Send the log buffer back to Telegram
     } catch (error) {
       console.log("An error occurred in /server command handler:", error);
+    }
+  });
+  
+  bot.command('pull', async (ctx) => {
+    try {
+      console.log("Entered /pull command handler.");
+      const incomingChatID = `${ctx.message.chat.id}`;
+      if (incomingChatID !== AUTHORIZED_CHAT_ID) {
+        console.log("Unauthorized access attempt.");
+        return; // Security check
+      }
+      const repoName = ctx.message.text.split(' ')[1]; // Get the part after /pull
+  
+      // Resolve the repoName to its corresponding alias from aliases.json
+      const resolvedAlias = aliases[repoName] || repoName;
+  
+      // Logic to decide whether to run git pull (this could be based on a flag, or some other condition)
+      const shouldRunGitPull = true; // For demonstration, set to true
+  
+      // Form the terminal command
+      let terminalCommand = `cd ${resolvedAlias}`;
+      if (shouldRunGitPull) {
+        terminalCommand += ' && git pull';
+      }
+  
+      console.log(`Pulling latest changes for repository: ${repoName}`);
+      ctx.reply("Starting git pull for " + repoName); // Send a message back to Telegram
+  
+      // Invoke nut.js to open terminal and run the command
+      await openTerminalAndRun(terminalCommand);
+  
+      const logBuffer = "Git pull executed via nut.js";
+      ctx.reply(logBuffer); // Send the log buffer back to Telegram
+    } catch (error) {
+      console.log("An error occurred in /pull command handler:", error);
+      ctx.reply(`An error occurred: ${error.message}`);
     }
   });
 

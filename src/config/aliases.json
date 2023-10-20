@@ -1,4 +1,5 @@
 {
-  "workoutBot": "NUTS",
+  "FitStreak": "~/projects/FitStreak",
+  "workoutBot": "~/projects/FitStreak",
   "anotherServer": "anotherTerminalAlias"
 }
