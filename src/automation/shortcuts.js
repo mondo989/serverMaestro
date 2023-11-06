@@ -13,9 +13,15 @@ const openTerminalAndRun = async (alias) => {
     }
 
     // Open terminal using Spotlight (Cmd + Space)
-    await keyboard.type(Key.LeftSuper, Key.Space);
-    await keyboard.type("terminal");
-    await keyboard.type(Key.Enter);
+    await keyboard.pressKey(Key.LeftSuper, Key.Space);
+    await keyboard.releaseKey(Key.LeftSuper, Key.Space);
+
+    await keyboard.type("iterm");
+    await keyboard.pressKey(Key.Enter);
+    await keyboard.releaseKey(Key.Enter);
+
+    await keyboard.pressKey(Key.LeftSuper, Key.T);
+    await keyboard.releaseKey(Key.LeftSuper, Key.T);
     
     // Wait for terminal to open (this delay may need to be adjusted)
     await new Promise(resolve => setTimeout(resolve, 1000));

@@ -49,7 +49,6 @@ const executeCommand = async (projectAlias) => {
 };
 
 
-
 const gitPull = (projectAlias) => {
   const directoryAlias = aliases[projectAlias];
   if (!directoryAlias) {
