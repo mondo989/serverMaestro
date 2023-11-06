@@ -7,6 +7,10 @@ const {
   unlockComputer
 } = require('../automation');
 
+const {
+  keyboard,
+} = require('@nut-tree/nut-js');
+
 const aliases = require('../config/aliases.json');
 const { openTerminalAndRun } = require('../automation/shortcuts');
 const automationCommands = require('../automation');
