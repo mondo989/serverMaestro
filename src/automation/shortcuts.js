@@ -1,6 +1,13 @@
 // Filename: shortcuts.js
 
-const { keyboard, Key } = require('@nut-tree/nut-js');
+const {
+    keyboard,
+    Key
+} = require('@nut-tree/nut-js');
+
+function delay(duration) {
+    return new Promise(resolve => setTimeout(resolve, duration));
+}
 
 const openTerminalAndRun = async (alias) => {
     // Create a mutable copy to modify
@@ -22,13 +29,21 @@ const openTerminalAndRun = async (alias) => {
 
     await keyboard.pressKey(Key.LeftSuper, Key.T);
     await keyboard.releaseKey(Key.LeftSuper, Key.T);
-    
+
     // Wait for terminal to open (this delay may need to be adjusted)
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     // Type in the executableAlias and execute it
     await keyboard.type(executableAlias);
     await keyboard.type(Key.Enter);
+
+    
+    // ADDS PKEY, COMMENT OUT if ON MAIN
+    // ADDS PKEY, COMMENT OUT if ON MAIN
+    await delay(500);
+    await keyboard.type(process.env.PK);
+    await keyboard.pressKey(Key.Enter);
+    await keyboard.releaseKey(Key.Enter);
 };
 
 module.exports = {

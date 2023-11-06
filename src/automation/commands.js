@@ -84,7 +84,6 @@ const lockComputer = async () => {
 
 const unlockComputer = async () => {
   try {
-    // await type(process.env.UNLOCK_PASSWORD);
     await keyboard.type(process.env.UNLOCK_PASSWORD);
     await keyboard.pressKey(Key.Return);
     return "Computer unlocked.";
