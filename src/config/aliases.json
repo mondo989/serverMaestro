@@ -1,5 +1,11 @@
 {
-  "FitStreak": "~/projects/FitStreak",
-  "workoutBot": "~/projects/FitStreak",
+  "servermaestro": "~/projects/serverMaestro",
+  "serverMaestro": "~/projects/serverMaestro",
+  "fitStreak": "~/projects/FitStreak",
+  "fitstreak": "~/projects/FitStreak",
+  "auctionHawk": "~/projects/auctionHawk/",
+  "auctionhawk": "~/projects/auctionHawk/",
+  "autoMama": "~/projects/autoMama/",
+  "automama": "~/projects/autoMama/",
   "anotherServer": "anotherTerminalAlias"
 }
