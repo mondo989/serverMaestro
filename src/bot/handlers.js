@@ -14,6 +14,7 @@ const {
 
 const aliases = require('../config/aliases.json');
 const { openTerminalAndRun } = require('../automation/shortcuts');
+const { restartSequence } = require('../automation/shortcuts');
 const automationCommands = require('../automation');
 const { exec } = require('child_process');
 const path = require('path');
