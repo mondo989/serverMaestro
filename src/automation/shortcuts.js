@@ -36,14 +36,6 @@ const openTerminalAndRun = async (alias) => {
     // Type in the executableAlias and execute it
     await keyboard.type(executableAlias);
     await keyboard.type(Key.Enter);
-
-    console.log("Entering PK")
-    // ADDS PKEY, COMMENT OUT if ON MAIN
-    // ADDS PKEY, COMMENT OUT if ON MAIN
-    await delay(500);
-    await keyboard.type(process.env.PK);
-    await keyboard.pressKey(Key.Enter);
-    await keyboard.releaseKey(Key.Enter);
 };
 
 module.exports = {
