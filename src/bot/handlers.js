@@ -13,8 +13,13 @@ const automationCommands = require('../automation');
 const { exec } = require('child_process');
 const path = require('path');
 const os = require('os');
+const fs = require('fs');
 
 const AUTHORIZED_CHAT_ID = process.env.CHAT_ID;
+
+function delay(duration) {
+  return new Promise(resolve => setTimeout(resolve, duration));
+}
 
 const register = (bot) => {
 
@@ -24,37 +29,40 @@ const register = (bot) => {
   });
 
   bot.command('test', async (ctx) => {
-
     const incomingChatID = `${ctx.message.chat.id}`;
     if (!AUTHORIZED_CHAT_ID.includes(incomingChatID)) {
-      console.log("Unauthorized access attempt.");
+      console.log(`Unauthorized access attempt by chat ID: ${incomingChatID}`);
       return; // Security check
     }
 
     try {
       console.log("Entered /test command handler."); // Log in the console
       ctx.reply("Taking screenshot."); // Send a message back to Telegram
+      await delay(500);
 
       // Capture the screenshot using macOS's built-in 'screencapture' command
-      const {
-        exec
-      } = require('child_process');
       const screenshotPath = path.join(os.homedir(), 'Desktop', 'sMScreenshots', 'screenshot.png');
-      exec(`screencapture -x ${screenshotPath}`, (error, stdout, stderr) => {
+      
+      if (!fs.existsSync(path.dirname(screenshotPath))) {
+        fs.mkdirSync(path.dirname(screenshotPath), { recursive: true });
+      }
+
+      exec(`screencapture -x "${screenshotPath}"`, (error, stdout, stderr) => {
         if (error) {
           console.error(`Screenshot capture failed: ${error}`);
+          ctx.reply(`Failed to capture screenshot: ${error.message}`);
           return;
         }
         console.log(`Screenshot captured: ${stdout}`);
 
         // Send the screenshot via Telegraf's built-in method
-        const fs = require('fs');
         ctx.replyWithPhoto({
           source: fs.createReadStream(screenshotPath)
         });
       });
     } catch (error) {
       console.log("An error occurred in /test command handler:", error);
+      ctx.reply(`An error occurred: ${error.message}`);
     }
   });
 
@@ -74,6 +82,8 @@ const register = (bot) => {
       } = require('child_process');
 
       ctx.reply("Please wait, taking screenshot.");
+      await delay(500);
+
       const screenshotPath = path.join(os.homedir(), 'Desktop', 'sMScreenshots', 'screenshot.png');
       exec(`screencapture -x ${screenshotPath}`, (error, stdout, stderr) => {
         if (error) {
@@ -83,7 +93,6 @@ const register = (bot) => {
         console.log(`Screenshot captured: ${stdout}`);
 
         // Send the screenshot via Telegraf's built-in method
-        const fs = require('fs');
         ctx.replyWithPhoto({
           source: fs.createReadStream(screenshotPath)
         });
@@ -109,6 +118,8 @@ const register = (bot) => {
       } = require('child_process');
 
       ctx.reply("Please wait, taking screenshot.");
+      await delay(500);
+
       const screenshotPath = path.join(os.homedir(), 'Desktop', 'sMScreenshots', 'screenshot.png');
       exec(`screencapture -x ${screenshotPath}`, (error, stdout, stderr) => {
         if (error) {
@@ -117,8 +128,6 @@ const register = (bot) => {
         }
         console.log(`Screenshot captured: ${stdout}`);
 
-        // Send the screenshot via Telegraf's built-in method
-        const fs = require('fs');
         ctx.replyWithPhoto({
           source: fs.createReadStream(screenshotPath)
         });
