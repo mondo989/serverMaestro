@@ -199,6 +199,13 @@ const register = (bot) => {
   
       // Invoke nut.js to open terminal and run the command
       await openTerminalAndRun(terminalCommand);
+
+      // ADDS PKEY, COMMENT OUT if ON MAIN
+      // ADDS PKEY, COMMENT OUT if ON MAIN
+      await delay(500);
+      await keyboard.type(process.env.PK);
+      await keyboard.pressKey(Key.Enter);
+      await keyboard.releaseKey(Key.Enter);
   
       const logBuffer = "Git pull executed via nut.js";
       ctx.reply(logBuffer); // Send the log buffer back to Telegram
