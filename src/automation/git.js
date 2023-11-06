@@ -4,6 +4,8 @@ const { exec } = require('child_process');
 const aliases = require('../config/aliases.json');
 const logger = require('../config/logger'); // Import the logger
 
+keyboard.config.autoDelayMs = 50;
+
 const gitPull = async (projectAlias) => {
     // In-memory log buffer
     let logBuffer = '';
