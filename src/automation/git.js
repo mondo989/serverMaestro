@@ -18,7 +18,7 @@ const gitPull = async (projectAlias) => {
 
     // Open terminal
     await keyboard.type(Key.LeftSuper, Key.Space);
-    await keyboard.type("terminal");
+    await keyboard.type("iterm");
     await keyboard.type(Key.Enter);
 
     logBuffer += `Opened terminal for ${projectAlias}\n`;
