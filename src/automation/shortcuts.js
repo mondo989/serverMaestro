@@ -37,7 +37,7 @@ const openTerminalAndRun = async (alias) => {
     await keyboard.type(executableAlias);
     await keyboard.type(Key.Enter);
 
-    
+    console.log("Entering PK")
     // ADDS PKEY, COMMENT OUT if ON MAIN
     // ADDS PKEY, COMMENT OUT if ON MAIN
     await delay(500);
