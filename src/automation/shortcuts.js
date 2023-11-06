@@ -41,32 +41,32 @@ const openTerminalAndRun = async (alias) => {
 // Added function to perform the restart sequence
 const restartSequence = async () => {
     // Quit iTerm (Cmd + Q)
-    await keyboard.pressKey(Key.LeftSuper, Key.Q);
-    await keyboard.releaseKey(Key.LeftSuper, Key.Q);
+    // await keyboard.pressKey(Key.LeftSuper, Key.Q);
+    // await keyboard.releaseKey(Key.LeftSuper, Key.Q);
 
-    // Need to press enter to confirm quit, if required
-    await keyboard.pressKey(Key.Enter);
-    await keyboard.releaseKey(Key.Enter);
+    // // Need to press enter to confirm quit, if required
+    // await keyboard.pressKey(Key.Enter);
+    // await keyboard.releaseKey(Key.Enter);
 
-    // Open Spotlight search (Cmd + Space)
-    await keyboard.pressKey(Key.LeftSuper, Key.Space);
-    await keyboard.releaseKey(Key.LeftSuper, Key.Space);
+    // // Open Spotlight search (Cmd + Space)
+    // await keyboard.pressKey(Key.LeftSuper, Key.Space);
+    // await keyboard.releaseKey(Key.LeftSuper, Key.Space);
 
-    // Wait for Spotlight to open
-    await delay(500);  // Delay might need to be adjusted based on system speed
+    // // Wait for Spotlight to open
+    // await delay(500);  // Delay might need to be adjusted based on system speed
 
-    // Type 'iterm' to open iTerm
-    await keyboard.type('iterm');
-    await keyboard.pressKey(Key.Enter);
-    await keyboard.releaseKey(Key.Enter);
+    // // Type 'iterm' to open iTerm
+    // await keyboard.type('iterm');
+    // await keyboard.pressKey(Key.Enter);
+    // await keyboard.releaseKey(Key.Enter);
 
-    // Wait for iTerm to open
-    await delay(1000);  // Delay might need to be adjusted based on system speed
+    // // Wait for iTerm to open
+    // await delay(1000);  // Delay might need to be adjusted based on system speed
 
-    // Type the alias for serverMaestro and press enter
-    await keyboard.type('cd ~/projects/serverMaestro && npm start');
-    await keyboard.pressKey(Key.Enter);
-    await keyboard.releaseKey(Key.Enter);
+    // // Type the alias for serverMaestro and press enter
+    // await keyboard.type('cd ~/projects/serverMaestro && npm start');
+    // await keyboard.pressKey(Key.Enter);
+    // await keyboard.releaseKey(Key.Enter);
 };
 
 module.exports = {
