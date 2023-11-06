@@ -9,6 +9,7 @@ const {
 
 const {
   keyboard,
+  key,
 } = require('@nut-tree/nut-js');
 
 const aliases = require('../config/aliases.json');
