@@ -215,6 +215,26 @@ const register = (bot) => {
     }
   });
 
+  // Handler for the /restart command
+  bot.command('restart', async (ctx) => {
+    try {
+      console.log("Entered /restart command handler.");
+      const incomingChatID = `${ctx.message.chat.id}`;
+      if (incomingChatID !== AUTHORIZED_CHAT_ID) {
+        console.log("Unauthorized access attempt.");
+        return; // Security check
+      }
+      
+      // Call the restartSequence function from shortcuts.js
+      await automationCommands.restartSequence();
+      
+      ctx.reply("Server restart sequence initiated."); // Send a confirmation message back to Telegram
+    } catch (error) {
+      console.log("An error occurred in /restart command handler:", error);
+      ctx.reply(`An error occurred: ${error.message}`);
+    }
+  });
+
   bot.on('text', (ctx) => {
     console.log(`Received text: ${ctx.message.text}`);
   });
