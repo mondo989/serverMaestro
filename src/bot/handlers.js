@@ -231,7 +231,7 @@ const register = (bot) => {
       }
       
       // Call the restartSequence function from shortcuts.js
-      await automationCommands.restartSequence();
+      await restartSequence();
       
       ctx.reply("Server restart sequence initiated."); // Send a confirmation message back to Telegram
     } catch (error) {
