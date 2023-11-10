@@ -14,10 +14,9 @@ const {
 
 const aliases = require('../config/aliases.json');
 const {
-  openTerminalAndRun
-} = require('../automation/shortcuts');
-const {
-  restartSequence
+  openTerminalAndRun,
+  restartSequence,
+  endApplication
 } = require('../automation/shortcuts');
 const automationCommands = require('../automation');
 const {
@@ -230,6 +229,26 @@ const register = (bot) => {
     }
   });
 
+  bot.command('end', async (ctx) => {
+    const incomingChatID = `${ctx.message.chat.id}`;
+    if (!AUTHORIZED_CHAT_ID.includes(incomingChatID)) {
+      console.log("Unauthorized access attempt.");
+      return; // Security check
+    }
+  
+    const commandText = ctx.message.text.split(' ')[1]; // Get the part after /end
+  
+    if (commandText === 'chrome') {
+      try {
+        await endApplication('chrome');
+        ctx.reply('Chrome has been closed.');
+      } catch (error) {
+        console.log(`An error occurred in /end chrome command handler: ${error}`);
+        ctx.reply(`An error occurred while trying to close Chrome: ${error.message}`);
+      }
+    }
+  });
+  
   // Handler for the /restart command
   bot.command('restart', async (ctx) => {
     try {
