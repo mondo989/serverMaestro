@@ -65,7 +65,7 @@ const executeAlarmSequence = async (youtubeUrl) => {
     for (let i = 0; i < 16; i++) {
       await keyboard.pressKey(Key.AudioVolUp);
       await keyboard.releaseKey(Key.AudioVolUp);
-      await new Promise(resolve => setTimeout(resolve, 10000)); // Wait 20 seconds
+      await new Promise(resolve => setTimeout(resolve, 5000)); // Wait 5 seconds
     }
   } catch (error) {
     console.error(`Error executing alarm sequence: ${error}`);
