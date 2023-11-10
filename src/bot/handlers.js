@@ -13,10 +13,17 @@ const {
 } = require('@nut-tree/nut-js');
 
 const aliases = require('../config/aliases.json');
-const { openTerminalAndRun } = require('../automation/shortcuts');
-const { restartSequence } = require('../automation/shortcuts');
+const {
+  openTerminalAndRun
+} = require('../automation/shortcuts');
+const {
+  restartSequence
+} = require('../automation/shortcuts');
 const automationCommands = require('../automation');
-const { exec } = require('child_process');
+const {
+  exec
+} = require('child_process');
+const { parseTimeToEST, isAlarmConflict, scheduleAlarm } = require('../automation/alarmManager');
 const path = require('path');
 const os = require('os');
 const fs = require('fs');
@@ -48,9 +55,11 @@ const register = (bot) => {
 
       // Capture the screenshot using macOS's built-in 'screencapture' command
       const screenshotPath = path.join(os.homedir(), 'Desktop', 'sMScreenshots', 'screenshot.png');
-      
+
       if (!fs.existsSync(path.dirname(screenshotPath))) {
-        fs.mkdirSync(path.dirname(screenshotPath), { recursive: true });
+        fs.mkdirSync(path.dirname(screenshotPath), {
+          recursive: true
+        });
       }
 
       exec(`screencapture -x "${screenshotPath}"`, (error, stdout, stderr) => {
@@ -152,32 +161,32 @@ const register = (bot) => {
         return; // Security check
       }
       const command = ctx.message.text.split(' ')[1]; // Get the part after /server
-  
+
       // Resolve the command to its corresponding alias from aliases.json
       const resolvedAlias = aliases[command] || command;
-  
+
       // Logic to decide whether to run npm start (this could be based on a flag, or some other condition)
       const shouldRunNpmStart = true; // For demonstration, set to true
-  
+
       // Form the terminal command
       let terminalCommand = `cd ${resolvedAlias}`;
       if (shouldRunNpmStart) {
         terminalCommand += ' && npm start';
       }
-  
+
       console.log(`Resolved command: ${command}`);
       ctx.reply("Starting " + command); // Send a message back to Telegram
-  
+
       // Invoke nut.js to open terminal and run the command
       await openTerminalAndRun(terminalCommand);
-  
+
       const logBuffer = "Command executed via nut.js";
       ctx.reply(logBuffer); // Send the log buffer back to Telegram
     } catch (error) {
       console.log("An error occurred in /server command handler:", error);
     }
   });
-  
+
   bot.command('pull', async (ctx) => {
     try {
       console.log("Entered /pull command handler.");
@@ -187,22 +196,22 @@ const register = (bot) => {
         return; // Security check
       }
       const repoName = ctx.message.text.split(' ')[1]; // Get the part after /pull
-  
+
       // Resolve the repoName to its corresponding alias from aliases.json
       const resolvedAlias = aliases[repoName] || repoName;
-  
+
       // Logic to decide whether to run git pull (this could be based on a flag, or some other condition)
       const shouldRunGitPull = true; // For demonstration, set to true
-  
+
       // Form the terminal command
       let terminalCommand = `cd ${resolvedAlias}`;
       if (shouldRunGitPull) {
         terminalCommand += ' && git pull';
       }
-  
+
       console.log(`Pulling latest changes for repository: ${repoName}`);
       ctx.reply("Starting git pull for " + repoName); // Send a message back to Telegram
-  
+
       // Invoke nut.js to open terminal and run the command
       await openTerminalAndRun(terminalCommand);
 
@@ -212,7 +221,7 @@ const register = (bot) => {
       await keyboard.type(process.env.PK);
       await keyboard.pressKey(Key.Enter);
       await keyboard.releaseKey(Key.Enter);
-  
+
       const logBuffer = "Git pull executed via nut.js";
       ctx.reply(logBuffer); // Send the log buffer back to Telegram
     } catch (error) {
@@ -230,16 +239,49 @@ const register = (bot) => {
         console.log("Unauthorized access attempt.");
         return; // Security check
       }
-      
+
       // Call the restartSequence function from shortcuts.js
       await restartSequence();
-      
+
       ctx.reply("Server restart sequence initiated."); // Send a confirmation message back to Telegram
     } catch (error) {
       console.log("An error occurred in /restart command handler:", error);
       ctx.reply(`An error occurred: ${error.message}`);
     }
   });
+
+  bot.command('alarm', async (ctx) => {
+    try {
+      console.log("Entered /alarm command handler.");
+      const incomingChatID = `${ctx.message.chat.id}`;
+      if (!AUTHORIZED_CHAT_ID.includes(incomingChatID)) {
+        console.log("Unauthorized access attempt.");
+        return; // Security check
+      }
+  
+      const [command, timeString, youtubeUrl] = ctx.message.text.split(' ');
+      const alarmTime = parseTimeToEST(timeString);  
+  
+      if (isAlarmConflict(alarmTime)) {
+        ctx.reply(`You already have an alarm set for that time.`);
+        return;
+      }  
+  
+      // Use addAlarm function instead of pushing directly to alarms array
+      scheduleAlarm(alarmTime, youtubeUrl);
+  
+      // Respond to the user
+      let replyMessage = `Great! We will be waking you up at ${timeString}! Sleep well!`;
+      if (youtubeUrl) {
+        replyMessage += `\nAlarm video: ${youtubeUrl}`;
+      }
+      ctx.reply(replyMessage);
+    } catch (error) {
+      console.log("An error occurred in /alarm command handler:", error);
+      ctx.reply(`An error occurred: ${error.message}`);
+    }  
+  });
+
 
   bot.on('text', (ctx) => {
     console.log(`Received text: ${ctx.message.text}`);

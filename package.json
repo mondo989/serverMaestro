@@ -15,6 +15,7 @@
   "dependencies": {
     "telegraf": "latest",
     "@nut-tree/nut-js": "latest",
+    "node-cron": "latest",
     "winston": "latest",
     "dotenv": "latest"
   }
