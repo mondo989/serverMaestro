@@ -17,6 +17,9 @@
     "@nut-tree/nut-js": "latest",
     "node-cron": "latest",
     "winston": "latest",
+    "vosk": "latest",
+    "node-record-lpcm16": "latest",
+    "play-sound": "latest",
     "dotenv": "latest"
   }
 }

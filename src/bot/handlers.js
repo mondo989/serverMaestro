@@ -6,7 +6,7 @@ const {
   lockComputer,
   unlockComputer
 } = require('../automation');
-
+const { startSpeechRecognition, stopSpeechRecognition } = require('../speech/speechRecognition');
 const {
   keyboard,
   Key
@@ -22,7 +22,11 @@ const automationCommands = require('../automation');
 const {
   exec
 } = require('child_process');
-const { parseTimeToEST, isAlarmConflict, scheduleAlarm } = require('../automation/alarmManager');
+const {
+  parseTimeToEST,
+  isAlarmConflict,
+  scheduleAlarm
+} = require('../automation/alarmManager');
 const path = require('path');
 const os = require('os');
 const fs = require('fs');
@@ -229,15 +233,20 @@ const register = (bot) => {
     }
   });
 
+  bot.command('speech', ctx => {
+    startSpeechRecognition(); 
+    ctx.reply('Speech recognition activated.');
+  });
+
   bot.command('end', async (ctx) => {
     const incomingChatID = `${ctx.message.chat.id}`;
     if (!AUTHORIZED_CHAT_ID.includes(incomingChatID)) {
       console.log("Unauthorized access attempt.");
       return; // Security check
     }
-  
+
     const commandText = ctx.message.text.split(' ')[1]; // Get the part after /end
-  
+
     if (commandText === 'chrome') {
       try {
         await endApplication('chrome');
@@ -246,9 +255,14 @@ const register = (bot) => {
         console.log(`An error occurred in /end chrome command handler: ${error}`);
         ctx.reply(`An error occurred while trying to close Chrome: ${error.message}`);
       }
+    } else if (command === 'speech') {
+      stopSpeechRecognition(); 
+      ctx.reply('Speech recognition deactivated.');
+    } else {
+      ctx.reply('Unknown command.');
     }
   });
-  
+
   // Handler for the /restart command
   bot.command('restart', async (ctx) => {
     try {
@@ -277,18 +291,18 @@ const register = (bot) => {
         console.log("Unauthorized access attempt.");
         return; // Security check
       }
-  
+
       const [command, timeString, youtubeUrl] = ctx.message.text.split(' ');
-      const alarmTime = parseTimeToEST(timeString);  
-  
+      const alarmTime = parseTimeToEST(timeString);
+
       if (isAlarmConflict(alarmTime)) {
         ctx.reply(`You already have an alarm set for that time.`);
         return;
-      }  
-  
+      }
+
       // Use addAlarm function instead of pushing directly to alarms array
       scheduleAlarm(alarmTime, youtubeUrl);
-  
+
       // Respond to the user
       let replyMessage = `Great! We will be waking you up at ${timeString}! Sleep well!`;
       if (youtubeUrl) {
@@ -298,7 +312,7 @@ const register = (bot) => {
     } catch (error) {
       console.log("An error occurred in /alarm command handler:", error);
       ctx.reply(`An error occurred: ${error.message}`);
-    }  
+    }
   });
 
 
