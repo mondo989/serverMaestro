@@ -10,7 +10,7 @@ const { startSpeechRecognition, stopSpeechRecognition } = require('../speech/spe
 const {
   keyboard,
   Key
-} = require('@nut-tree/nut-js');
+} = require('@nut-tree-fork/nut-js');
 
 const aliases = require('../config/aliases.json');
 const {

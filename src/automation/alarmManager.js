@@ -4,7 +4,7 @@ const cron = require('node-cron');
 const {
   keyboard,
   Key
-} = require('@nut-tree/nut-js');
+} = require('@nut-tree-fork/nut-js');
 
 // Single array to store the scheduled alarms
 let scheduledAlarms = [];

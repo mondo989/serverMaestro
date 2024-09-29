@@ -14,12 +14,15 @@
   "license": "ISC",
   "dependencies": {
     "telegraf": "latest",
-    "@nut-tree/nut-js": "latest",
+    "@nut-tree-fork/nut-js": "latest",
     "node-cron": "latest",
     "winston": "latest",
     "vosk": "latest",
     "node-record-lpcm16": "latest",
     "play-sound": "latest",
-    "dotenv": "latest"
+    "dotenv": "latest",
+    "say": "latest",
+    "node-fetch": "latest",
+    "speaker": "latest"
   }
 }

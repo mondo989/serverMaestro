@@ -1,6 +1,6 @@
 // filename: src/automation/commands.js
 
-const nut = require('@nut-tree/nut-js');
+const nut = require('@nut-tree-fork/nut-js');
 const {
   exec
 } = require('child_process');
@@ -13,7 +13,7 @@ const {
   Key,
   type,
   Button
-} = require('@nut-tree/nut-js');
+} = require('@nut-tree-fork/nut-js');
 const aliases = require('../config/aliases.json');
 const logger = require('../config/logger');
 

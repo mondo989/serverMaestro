@@ -1,5 +1,5 @@
 // filename: src/automation/git.js
-const { keyboard, Key } = require('@nut-tree/nut-js');
+const { keyboard, Key } = require('@nut-tree-fork/nut-js');
 const { exec } = require('child_process');
 const aliases = require('../config/aliases.json');
 const logger = require('../config/logger'); // Import the logger

@@ -3,7 +3,7 @@
 const {
   keyboard,
   Key
-} = require('@nut-tree/nut-js');
+} = require('@nut-tree-fork/nut-js');
 
 function delay(duration) {
   return new Promise(resolve => setTimeout(resolve, duration));
