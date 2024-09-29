@@ -2,3 +2,5 @@
 .DS_Store
 .env
 /models/
+*.log
+npm-debug.log*

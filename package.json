@@ -13,16 +13,16 @@
   "author": "Your Name",
   "license": "ISC",
   "dependencies": {
-    "telegraf": "latest",
     "@nut-tree-fork/nut-js": "latest",
+    "dotenv": "latest",
     "node-cron": "latest",
-    "winston": "latest",
-    "vosk": "latest",
+    "node-fetch": "^2.7.0",
     "node-record-lpcm16": "latest",
     "play-sound": "latest",
-    "dotenv": "latest",
     "say": "latest",
-    "node-fetch": "latest",
-    "speaker": "latest"
+    "speaker": "latest",
+    "telegraf": "latest",
+    "vosk": "latest",
+    "winston": "latest"
   }
 }

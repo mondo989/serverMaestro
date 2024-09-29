@@ -1,3 +1,5 @@
+// src/speech/VoskService.js
+
 const vosk = require('vosk');
 const fs = require('fs');
 
