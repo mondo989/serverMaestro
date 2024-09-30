@@ -10,7 +10,6 @@
 - **Desktop Automation**: Perform a range of actions, like ending all server processes.
 - **Speech Recognition (Vosk)**: Integrated with Vosk for speech-to-text functionality.
 - **Siri Shortcuts Integration**: Uses macOS Shortcuts to automate system tasks.
-- **OCR Integration**: Tesseract.js is used for Optical Character Recognition (OCR) on screen content.
 - **Custom Automation**: Use scripts for custom automation and home management.
 
 ## Setup
@@ -45,7 +44,6 @@
 - **/server remove [existingProject]**: Remove a project from the management list.
 - **/server endAll**: Close the terminal, effectively ending all running servers.
 - **/server [existingProject] pull**: Pull the latest updates for the specified project from GitHub.
-- **/readScreen**: Capture the screen content and perform OCR using Tesseract.js.
 - **/lights on/off**: Trigger Siri Shortcuts to control lights or other smart home devices.
 - **/custom [script]**: Run a custom automation script from the automation directory.
 
@@ -55,10 +53,6 @@ Vosk is integrated for speech-to-text functionality, allowing the system to resp
 
 - **/speech start**: Begin listening for specific commands like "Turn off the lights" or "Start the server."
 - **Wake Words**: `"Hey Genesis"`, `"Hey Jarvis"`
-
-## OCR Functionality
-
-The `/readScreen` command can be used to process the content on the screen via Tesseract.js.
 
 ## Siri Shortcuts Integration
 
@@ -73,7 +67,6 @@ Ensure only the predefined chat ID can control the bot to maintain security. All
 
 Refer to the `package.json` file for the complete list of dependencies, which includes:
 - **Vosk**: Speech recognition
-- **Tesseract.js**: OCR functionality
 - **Siri Shortcuts**: macOS automation
 - **Telegram Bot API**: Communication
 
