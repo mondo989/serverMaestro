@@ -1,13 +1,13 @@
 # serverMaestro
 
 `serverMaestro` is a Telegram bot-powered automation system built for remote management of projects and servers on macOS. It leverages the Telegram Bot API for command execution, nut.js for desktop automation, Vosk for speech recognition, and Mimic3 TTS for voice feedback. With integrated Git management and custom automation scripts, serverMaestro simplifies tasks like starting servers, updating projects via Git, and automating media playback (e.g., YouTube) for alarms or notifications.
-## Features
 
 ## Features
 
 - **Remote Server Control**: Start specific or all servers using pre-defined aliases.
 - **Project & Git Management**: Manage projects, list, add, or remove them, and pull the latest changes using Git.
 - **Desktop Automation**: Use scripts for custom actions like ending server processes or automating tasks via macOS Shortcuts.
+- **Desktop Automation**: Use scripts for custom actions like ending server processes, automating tasks via macOS Shortcuts, and remotely locking or unlocking the system.
 - **Speech Recognition (Vosk)**: Integrated with Vosk for speech-to-text functionality.
 - **Alarm Clock**: Play a YouTube video using **nut.js** for automation.
 - **Text-to-Speech (TTS)**: Provides voice feedback or audio prompts via Mimic3 TTS.
