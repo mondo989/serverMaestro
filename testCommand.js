@@ -1,11 +1,21 @@
 const { exec } = require('child_process');
 
-const shortcutsPath = '/usr/bin/shortcuts';  // Replace with actual output from `which shortcuts`
+console.log("Starting AppleScript...");
 
-exec(`${shortcutsPath} run "Test1"`, (error, stdout, stderr) => {
+const appleScript = `osascript -e 'tell application "Shortcuts" to run shortcut "Test1"'`;
+
+exec(appleScript, (error, stdout, stderr) => {
+  console.log("Running AppleScript...");
   if (error) {
     console.error(`Error executing command: ${error.message}`);
     return;
   }
-  console.log(`Command output: ${stdout}`);
+  if (stdout) {
+    console.log(`Command output: ${stdout}`);
+  }
+  if (stderr) {
+    console.error(`stderr: ${stderr}`);
+  }
 });
+
+console.log("Finished command.");

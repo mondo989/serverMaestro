@@ -57,7 +57,6 @@ const genesisResponses = [
 ];
 
 function convertSpokenTimeToStandardFormat(spokenTime) {
-  // Basic mapping, expand as needed
   const numberMap = {
     "one": 1,
     "two": 2,
@@ -136,7 +135,6 @@ ttsService.speak = (text) => {
     isSpeaking = false;
   });
 };
-
 
 const startSpeechRecognition = async () => {
   if (isListening) return;
@@ -226,11 +224,11 @@ const processCommand = (command) => {
         ttsService.speak("Sunshine, let's start a new day");
     } else if (command.includes('turn off lights')) {
       console.log("Running 'Turn off Lights' shortcut...");
-      ttsService.speak("Lights out bitches");
+      ttsService.speak("Lights out ");
       triggerService.runCommand('allLightsOff');
     } else if (command.includes('run a test')) {
       console.log("Doing a Test");
-      ttsService.speak("Test test test");
+      ttsService.speak("Test test test. we test in production over here");
       triggerService.runCommand('testShortcut');
     }
      else if (command.includes('wake up')) {
@@ -242,7 +240,6 @@ const processCommand = (command) => {
     }
   }
 };
-
 
 module.exports = {
   startSpeechRecognition,

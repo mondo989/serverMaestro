@@ -1,35 +1,29 @@
 // src/automation/triggerService.js
-
 const { exec } = require('child_process');
 
 // Define command mappings directly in an object
-// const commandsMap = {
-//   lightsOn: 'shortcuts run "Wakeup"',
-//   lightsOff: 'shortcuts run "Sleep"',
-//   wakeup: 'shortcuts run "Wakeup"',
-//   testShortcut: 'shortcuts run "Test1"'
-// };
-
 const commandsMap = {
-  lightsOn: '/usr/bin/shortcuts run "Wakeup"',  // Replace with the actual full path
-  lightsOff: '/usr/bin/shortcuts run "Sleep"',
-  wakeup: '/usr/bin/shortcuts run "Wakeup"',
-  testShortcut: '/usr/bin/shortcuts run "Test1"'
+  lightsOn: 'Wakeup',  // Name of the Shortcuts to run
+  lightsOff: 'Sleep',
+  wakeup: 'Wakeup',
+  testShortcut: 'Test1'
 };
-
 
 // Function to run a command based on the name
 function runCommand(commandName) {
   console.log(`Attempting to run command for: ${commandName}`);
 
-  const command = commandsMap[commandName];
-  if (!command) {
+  const shortcutName = commandsMap[commandName];
+  if (!shortcutName) {
     console.error(`Command "${commandName}" not found`);
     return;
   }
 
-  console.log(`Executing command: ${command}`);
-  exec(command, (error, stdout, stderr) => {
+  // Construct the AppleScript command
+  const appleScript = `osascript -e 'tell application "Shortcuts" to run shortcut "${shortcutName}"'`;
+
+  console.log(`Executing command via AppleScript: ${appleScript}`);
+  exec(appleScript, (error, stdout, stderr) => {
     if (error) {
       console.error(`Error executing command: ${error.message}`);
       console.error(`Error code: ${error.code}`);
