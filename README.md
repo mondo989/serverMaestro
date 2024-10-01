@@ -6,7 +6,6 @@
 
 - **Remote Server Control**: Start specific or all servers using pre-defined aliases.
 - **Project & Git Management**: Manage projects, list, add, or remove them, and pull the latest changes using Git.
-- **Desktop Automation**: Use scripts for custom actions like ending server processes or automating tasks via macOS Shortcuts.
 - **Desktop Automation**: Use scripts for custom actions like ending server processes, automating tasks via macOS Shortcuts, and remotely locking or unlocking the system.
 - **Speech Recognition (Vosk)**: Integrated with Vosk for speech-to-text functionality.
 - **Alarm Clock**: Play a YouTube video using **nut.js** for automation.
