@@ -5,12 +5,12 @@
 ## Features
 
 - **Remote Server Control**: Start specific or all servers using pre-defined aliases.
-- **Project Management**: List all managed projects, add new ones, or remove existing ones.
-- **Git Integration**: Pull the latest changes for a given project.
-- **Desktop Automation**: Perform a range of actions, like ending all server processes.
+- **Project & Git Management**: Manage projects, list, add, or remove them, and pull the latest changes using Git.
+- **Desktop Automation**: Use scripts for custom actions like ending server processes or automating tasks via macOS Shortcuts.
 - **Speech Recognition (Vosk)**: Integrated with Vosk for speech-to-text functionality.
-- **Siri Shortcuts Integration**: Uses macOS Shortcuts to automate system tasks.
-- **Custom Automation**: Use scripts for custom automation and home management.
+- **Alarm Clock**: Play a YouTube video using **nut.js** for automation.
+- **Text-to-Speech (TTS)**: Provides voice feedback or audio prompts via Mimic3 TTS.
+- **Media Integration**: Automatically play media (YouTube) for alarms or notifications.
 
 ## Setup
 
