@@ -3,16 +3,18 @@ const { exec } = require('child_process');
 
 // Define command mappings directly in an object
 const commandsMap = {
-  lightsOn: 'Wakeup',  // Name of the Shortcuts to run
-  lightsOff: 'Sleep',
-  wakeup: 'Wakeup',
-  testShortcut: 'Test1'
+  allLightsOn: 'Wakeup',
+  allLightsOff: 'Sleep',
+  bathroomLightsOn: 'BathroomLightsOn',
+  bathroomLightsOff: 'BathroomLightsOff',
+  smokeyLightsOn: 'SmokeyRoomLightsOn',
+  smokeyLightsOff: 'SmokeyRoomLightsOff',
+  kitchenLightsOn: 'KitchenLightsOn',
+  kitchenLightsOff: 'KitchenLightsOff'
 };
 
 // Function to run a command based on the name
 function runCommand(commandName) {
-  console.log(`Attempting to run command for: ${commandName}`);
-
   const shortcutName = commandsMap[commandName];
   if (!shortcutName) {
     console.error(`Command "${commandName}" not found`);
@@ -22,18 +24,11 @@ function runCommand(commandName) {
   // Construct the AppleScript command
   const appleScript = `osascript -e 'tell application "Shortcuts" to run shortcut "${shortcutName}"'`;
 
-  console.log(`Executing command via AppleScript: ${appleScript}`);
-  exec(appleScript, (error, stdout, stderr) => {
+  // Execute the AppleScript command without extra logging
+  exec(appleScript, (error) => {
     if (error) {
       console.error(`Error executing command: ${error.message}`);
-      console.error(`Error code: ${error.code}`);
-      console.error(`Signal received: ${error.signal}`);
-      return;
     }
-    if (stderr) {
-      console.error(`Command stderr: ${stderr}`);
-    }
-    console.log(`Command output: ${stdout}`);
   });
 }
 

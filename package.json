@@ -4,7 +4,8 @@
   "description": "Telegram bot-powered automation system for macOS project management.",
   "main": "src/bot/index.js",
   "scripts": {
-    "start": "node src/bot/index.js"
+    "start": "node src/bot/index.js",
+    "server-only": "./run_mimic_and_server.sh"
   },
   "repository": {
     "type": "git",

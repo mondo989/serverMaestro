@@ -5,9 +5,11 @@ const AudioProcessor = require('./AudioProcessor');
 const AudioPlayer = require('./AudioPlayer');
 const ttsService = require('./ttsService');
 const triggerService = require('../automation/triggerService');
-const { gotoWebsiteForLightControl } = require('../automation/shortcuts');
+const {
+  gotoWebsiteForLightControl
+} = require('../automation/shortcuts');
 
-const modelPath = './models/vosk-model--sm';
+const modelPath = './models/vosk-model--lg';
 const chimePath = './sounds/bottle.aiff';
 const chimePath2 = './sounds/response.mp3';
 const successChimePath = './sounds/accepted.aiff';
@@ -43,16 +45,10 @@ const resetAlarmSettings = () => {
 
 // Define an array of responses for Genesis
 const genesisResponses = [
-  "Genesis is here",
-  "At your service",
-  "How can I assist?",
-  "Ready to help",
+  "Whats up?",
   "Hello, how may I assist you today?",
-  "Greetings! Genesis at your command.",
-  "Welcome! What can I do for you?",
   "G-G's in the Chat.",
-  "Let's Go.",
-  "Hi there!?",
+  "I'm here.",
   "Welcome back?",
 ];
 
@@ -190,15 +186,24 @@ const stopSpeechRecognition = () => {
 };
 
 const processCommand = (command) => {
+  const normalizedCommand = command.toLowerCase().trim();
+
   // Check for stopping active mode first
-  if (command.includes('stop active mode')) {
+  if (command.includes('inactive mode') ||
+    command.includes('stop listening') ||
+    command.includes('stop') ||
+    command.includes("go sleep")) {
     mode = 'Inactive';
     ttsService.speak("Okay then, my fingers will be in my ears now");
   }
   // Then check for activating active mode
-  else if (command.includes('active mode')) {
+  else if (command.includes('active mode') ||
+    command.includes('active loud') ||
+    command.includes('active go') ||
+    command.includes("let's cook")) {
     mode = 'Active';
     ttsService.speak("I'm listening for all your requests");
+    failureChimePlayer.play();
   }
   // Process other commands if in Active mode or Genesis is triggered
   else if (mode === 'Active' || command.includes('genesis')) {
@@ -217,26 +222,106 @@ const processCommand = (command) => {
       awaitingAlarmTime = true;
     } else if (awaitingAlarmTime || awaitingMusicChoice || confirmingAlarm) {
       handleAlarmResponse(command);
-    } else if (command.toLowerCase().includes('good day') || command.toLowerCase().includes('new day') || command.toLowerCase().includes('top of the top')) {
-        ttsService.speak("Wakey wakey");
-        console.log("Running 'Turn on Lights' shortcut...");
-        triggerService.runCommand('lightsOn');
-        ttsService.speak("Sunshine, let's start a new day");
-    } else if (command.includes('turn off lights')) {
-      console.log("Running 'Turn off Lights' shortcut...");
-      ttsService.speak("Lights out ");
+
+    } else if (normalizedCommand === 'introduce yourself' ||
+      normalizedCommand === 'who are you' ||
+      normalizedCommand === 'who you') {
+
+      ttsService.speak("I am Genesis, your personal home automation assistant. I help control your home with voice commands, making your life easier and more efficient.");
+
+    } if (command.includes('good morning') ||
+    command.includes('all lights on') ||
+    command.includes('hey good morning') ||
+    command.includes("new day") ||
+    command.includes("turn on all the lights")) {
+
+      // Turn All lights on
+      triggerService.runCommand('allLightsOn');
+
+      ttsService.speak("Wakey wakey, hands off snakey");
+      console.log("AllLights on shortcut ran");
+    } else if (command.includes('good night') ||
+      command.includes('lights out') ||
+      command.includes("all lights out") ||
+      command.includes("all lights off") ||
+      command.includes("nighty night") ||
+      command.includes("ninety night") ||
+      command.includes("get some sleep")) {
+
+      ttsService.speak("Lights out bitches");
+      // Turn All lights off
       triggerService.runCommand('allLightsOff');
-    } else if (command.includes('run a test')) {
-      console.log("Doing a Test");
-      ttsService.speak("Test test test. we test in production over here");
-      triggerService.runCommand('testShortcut');
-    }
-     else if (command.includes('wake up')) {
-      console.log("Running 'Wakeup' shortcut...");
-      triggerService.runCommand('wakeup');
+      console.log("AllLightsOff shortcut ran");
+
+    } else if (normalizedCommand === 'lights on bathroom' ||
+      normalizedCommand === 'bathroom lights on' ||
+      normalizedCommand === 'using the bathroom' ||
+      normalizedCommand === "I'm using the bathroom" ||
+      normalizedCommand === 'dropping a stinker' ||
+      normalizedCommand === 'need to poop' ||
+      normalizedCommand === 'i need to poop' ||
+      normalizedCommand === 'take a shit') {
+
+      // Turn All lights on
+      triggerService.runCommand('bathroomLightsOn');
+
+      ttsService.speak("Wash your hands, you nasty human");
+      console.log("Bathroom lights on");
+    } else if (normalizedCommand === 'lights off bathroom' ||
+      normalizedCommand === 'bathroom lights off' ||
+      normalizedCommand === 'turn off the bathroom' ||
+      normalizedCommand === "done in the bathroom" ||
+      normalizedCommand === 'no lights in bathroom' ||
+      normalizedCommand === 'bathroom done' ||
+      normalizedCommand === 'done in bathroom') {
+
+      // Turn All lights on
+      triggerService.runCommand('bathroomLightsOff');
+      ttsService.speak("Even though I dont have a nose, I still smell you");
+      console.log("Bathroom lights off");
+    } else if (command.includes('smoky room on') ||
+      command.includes('smoky room lights') ||
+      command.includes("i'm working late tonight") ||
+      command.includes("smoky lights")) {
+      triggerService.runCommand('smokeyLightsOn');
+      ttsService.speak("Lights are on in the stinky room. I mean smokey room");
+      console.log("Lights on in Smokey room");
+    } else if (command.includes('smoky room off') ||
+      command.includes('lights off smoky room') ||
+      command.includes('lights off smokey room') ||
+      command.includes("i'm working late tonight") ||
+      command.includes("smoky light off, smells better")) {
+      triggerService.runCommand('smokeyLightsOff');
+      ttsService.speak("Smokey room lights are off, smells better like that");
+      console.log("Smokey Room lights off...");
+    } else if (command.includes('kitchen lights on') ||
+      command.includes('lights on kitchen') ||
+      command.includes('going to cook') ||
+      command.includes("need lights in the kitchen") ||
+      command.includes("start kitchen lights")) {
+      triggerService.runCommand('kitchenLightsOn');
+      ttsService.speak("I really hope your wife makes something nice, for the both of us.");
+      console.log("Kitchen lights on...");
+    } else if (command.includes('bedroom lights on') ||
+    command.includes('lights on kitchen') ||
+    command.includes('going to cook') ||
+    command.includes("need lights in the kitchen") ||
+    command.includes("start kitchen lights")) {
+    triggerService.runCommand('kitchenLightsOn');
+    console.log("Bedroom lights on");
+  }
+    else if (command.includes('kitchen lights off') ||
+      command.includes('lights off kitchen') ||
+      command.includes('done cooking') ||
+      command.includes("need lights off in the kitchen") ||
+      command.includes("stop kitchen lights")) {
+      triggerService.runCommand('kitchenLightsOff');
+      ttsService.speak("Kitchen lights are off.");
+      console.log("Kitchen lights off...");
     } else {
       console.log(`Unknown command: ${command}`);
       // failureChimePlayer.play();
+      return;
     }
   }
 };
